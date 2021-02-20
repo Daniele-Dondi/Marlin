@@ -18,11 +18,17 @@ Whitelist (Gcodes tested and working)
 G1 [Xx.xxxx] [Yy.yyyy] [Zz.zzzz] [Ii.iiii] [Jj.jjjj] [Kk.kkkk] [Ee.eeee] [Ff.ffff]
 
 G28 [X] [Y] [Z] [I] [J] [K]
+
 M280 (servo control)
+
 M140 (set bed temperature)
+
 M104 (set hotend temperature)
+
 M301 (set hotend PID parameters)
+
 M304 (set bed PID parameters)
+
 M400 (wait for all moves to finish)
 
 ## Configuration
