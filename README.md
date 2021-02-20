@@ -38,16 +38,9 @@ Configuration is done by editing the file Marlin/Configuration.h.
 
 `NON_E_AXES`: 
 The number of axes that are not used for extruders (axes that
-benefit from endstops and homing). `NON_E_AXES` > `3` requires definition of
-`[[I, [J, [K]]]_STEP_PIN`, `[I, [J, [K]]]_ENABLE_PIN`, `[I, [J, [K]]]_DIR_PIN`,
-`[I, [J, [K]]]_STOP_PIN`, `USE_[I, [J, [K]]][MIN || MAX]_PLUG` and definition of the
-respective values of `DEFAULT_AXIS_STEPS_PER_UNIT`, `DEFAULT_MAX_FEEDRATE`,
-`DEFAULT_MAX_ACCELERATION`, `AXIS_RELATIVE_MODES`, `MICROSTEP_MODES` and
-`MANUAL_FEEDRATE`.
+benefit from endstops and homing). 
 
-Allowed values: [3, 4, 5, 6]
-
-
+Allowed values: [5, 6]
 
 Regardless of the settings, firmware-internal axis names are
 I (AXIS4), J (AXIS5), K (AXIS6).
