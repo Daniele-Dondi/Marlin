@@ -8,6 +8,7 @@ This project is intended for a syringebot robot for liquid handling for driving 
 The current version supports up to 6 syringes.
 For each syringe two servocontrolled valves drive the liquids inside a reaction vessel that is thermocontrolled with PID. 
 The current version supports and is tested only on the Megatronics v.3 board.
+![Megatronics 3 pic](https://github.com/Daniele-Dondi/Marlin/blob/SyringeBot/img/megatronics-board.jpg?raw=true)
 
 ## Marlin2ForPipetBot Branch
 
