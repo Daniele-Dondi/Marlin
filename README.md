@@ -83,11 +83,9 @@ Marlin 2.0 introduces a layer of abstraction so that all the existing high-level
 
 ## Submitting Patches
 
-Proposed patches should be submitted as a Pull Request against the [Marlin2ForPipetBot](https://github.com/MarlinFirmware/Marlin/tree/Marlin2ForPipetBot) branch.
+Proposed patches should be submitted as a Pull Request against the [SyringeBot](https://github.com/Daniele-Dondi/Marlin/tree/SyringeBot) branch.
 
-- This branch is for fixing bugs and integrating any new features for the duration of the Marlin 2.0.x life-cycle.
 - Follow the [Coding Standards](http://marlinfw.org/docs/development/coding_standards.html) to gain points with the maintainers.
-- Please submit your questions and concerns to the [Issue Queue](https://github.com/DerAndere1/Marlin/issues).
 
 ### [RepRap.org Wiki Page](http://reprap.org/wiki/Marlin)
 
