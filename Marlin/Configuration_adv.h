@@ -630,13 +630,13 @@
 //#define SENSORLESS_BACKOFF_MM  { 2, 2 }     // (mm) Backoff from endstops before sensorless homing
 
 #if NON_E_AXES == 6
-  #define HOMING_BUMP_MM      { 5, 5, 2, 2, 2, 2 }       // (mm) Backoff from endstops after first bump
-  #define HOMING_BUMP_DIVISOR { 2, 2, 4, 4, 4, 4 }       // Re-Bump Speed Divisor (Divides the Homing Feedrate)
+  #define HOMING_BUMP_MM      { 2, 2, 2, 2, 2, 2 }       // (mm) Backoff from endstops after first bump  //Dondi
+  #define HOMING_BUMP_DIVISOR { 4, 4, 4, 4, 4, 4 }       // Re-Bump Speed Divisor (Divides the Homing Feedrate) //Dondi
 
   //#define HOMING_BACKOFF_POST_MM { 2, 2, 2, 2, 2, 2 }  // (mm) Backoff from endstops after homing
 #elif NON_E_AXES == 5
-  #define HOMING_BUMP_MM      { 5, 5, 2, 2, 2 }       // (mm) Backoff from endstops after first bump
-  #define HOMING_BUMP_DIVISOR { 2, 2, 4, 4, 4 }       // Re-Bump Speed Divisor (Divides the Homing Feedrate)
+  #define HOMING_BUMP_MM      { 2, 2, 2, 2, 2 }       // (mm) Backoff from endstops after first bump //Dondi
+  #define HOMING_BUMP_DIVISOR { 4, 4, 4, 4, 4 }       // Re-Bump Speed Divisor (Divides the Homing Feedrate) //Dondi
 
   //#define HOMING_BACKOFF_POST_MM { 2, 2, 2, 2, 2 }  // (mm) Backoff from endstops after homing
 #elif NON_E_AXES == 4
@@ -950,7 +950,7 @@
  * Note: HOTEND_OFFSET and CALIBRATION_OBJECT_CENTER must be set to within
  *       ±5mm of true values for G425 to succeed.
  */
-//#define CALIBRATION_GCODE
+//#define CALIBRATION_GCODE 
 #if ENABLED(CALIBRATION_GCODE)
 
   //#define CALIBRATION_SCRIPT_PRE  "M117 Starting Auto-Calibration\nT0\nG28\nG12\nM117 Calibrating..."

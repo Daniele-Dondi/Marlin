@@ -1099,7 +1099,7 @@
 #endif
 
 #ifndef NUM_SERVO_PLUGS
-  #define NUM_SERVO_PLUGS 4
+  #define NUM_SERVO_PLUGS 12 //Dondi
 #endif
 
 //

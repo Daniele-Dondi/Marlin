@@ -44,16 +44,50 @@
 #define SERVO1_PIN                            47  // AUX3-5
 #define SERVO2_PIN                            48  // AUX3-4
 #define SERVO3_PIN                            49  // AUX3-3
+#define SERVO4_PIN                            45  // Dondi  Keypad
+#define SERVO5_PIN                            44  // Dondi  Keypad
+#define SERVO6_PIN                            43  // Dondi  Keypad
+#define SERVO7_PIN                            42  // Dondi  Keypad
+#define SERVO8_PIN                            33  // Dondi  Keypad
+#define SERVO9_PIN                            34  // Dondi  Keypad
+#define SERVO10_PIN                           35  // Dondi  Keypad
+#define SERVO11_PIN                           36  // Dondi  Keypad
+
+//Dondi the following are only listed for future applications but not yet implemented
+#define SERVO12_PIN                           30  // Dondi  LCD
+#define SERVO13_PIN                           31  // Dondi  LCD
+#define SERVO14_PIN                           32  // Dondi  LCD
+#define SERVO15_PIN                           14  // Dondi  LCD
+#define SERVO16_PIN                           15  // Dondi  LCD
+#define SERVO17_PIN                           39  // Dondi  LCD
+
+
+
+
+
+
+
 
 //
 // Limit Switches
 //
 #define X_MIN_PIN                             37  // No INT
-#define X_MAX_PIN                             40  // No INT
+//#define X_MAX_PIN                             40  // No INT  //Dondi
 #define Y_MIN_PIN                             41  // No INT
-#define Y_MAX_PIN                             38  // No INT
+//#define Y_MAX_PIN                             38  // No INT   //Dondi
 #define Z_MIN_PIN                             18  // No INT
-#define Z_MAX_PIN                             19  // No INT
+//#define Z_MAX_PIN                             19  // No INT  //Dondi
+
+#if NON_E_AXES >= 4     //Dondi
+  #define I_STOP_PIN         40
+  #if NON_E_AXES >= 5
+    #define J_STOP_PIN         38
+       #if NON_E_AXES >= 6
+         #define K_STOP_PIN         19
+       #endif
+  #endif
+#endif
+
 
 //
 // Z Probe (when not Z_MIN_PIN)
@@ -77,17 +111,39 @@
 #define Z_DIR_PIN                             11
 #define Z_ENABLE_PIN                           3
 
-#define E0_STEP_PIN                           28
+#if NON_E_AXES >= 4   //Dondi
+  #define I_STEP_PIN       28
+  #define I_DIR_PIN        27
+  #define I_ENABLE_PIN     29
+#endif
+
+#if NON_E_AXES >= 5  //Dondi
+  #define J_STEP_PIN       25
+  #define J_DIR_PIN        24
+  #define J_ENABLE_PIN     26
+#endif
+
+#if NON_E_AXES >= 6  //Dondi
+  #define K_STEP_PIN       22
+  #define K_DIR_PIN        60
+  #define K_ENABLE_PIN     23
+#endif
+
+/*
+#define E0_STEP_PIN                           28  //Dondi
 #define E0_DIR_PIN                            27
 #define E0_ENABLE_PIN                         29
 
 #define E1_STEP_PIN                           25
 #define E1_DIR_PIN                            24
 #define E1_ENABLE_PIN                         26
+*/
 
-#define E2_STEP_PIN                           22
-#define E2_DIR_PIN                            60
-#define E2_ENABLE_PIN                         23
+#if EXTRUDERS==1
+ #define E0_STEP_PIN                           7 //Dondi
+ #define E0_DIR_PIN                            7 //Dondi
+ #define E0_ENABLE_PIN                         7 //Dondi
+#endif
 
 //
 // Temperature Sensors
@@ -108,23 +164,23 @@
   #define TEMP_2_PIN                          12  // Analog Input
 #endif
 #if TEMP_SENSOR_BED == -1
-  #define TEMP_BED_PIN                         8  // Analog Input
+  #define TEMP_BED_PIN                        11  // Analog Input  //Dondi it was 8
 #else
-  #define TEMP_BED_PIN                        14  // Analog Input
+  #define TEMP_BED_PIN                        15  // Analog Input //Dondi it was 14
 #endif
 
 //
 // Heaters / Fans
 //
-#define HEATER_0_PIN                           2
+#define HEATER_0_PIN                           10  // Dondi it was 2
 #define HEATER_1_PIN                           9
 #define HEATER_2_PIN                           8
-#define HEATER_BED_PIN                        10
+#define HEATER_BED_PIN                         2  // Dondi it was 10
 
 #ifndef FAN_PIN
   #define FAN_PIN                              6
 #endif
-#define FAN1_PIN                               7
+//#define FAN1_PIN                               7  // Dondi 7 is used for dummy extruder instead
 
 //
 // Misc. Functions
@@ -133,19 +189,26 @@
 #define LED_PIN                               13
 #define PS_ON_PIN                             12
 
+// Dondi
+/*
 #ifndef CASE_LIGHT_PIN
   #define CASE_LIGHT_PIN                      45  // Try the keypad connector
 #endif
+*/
 
 //
 // LCD / Controller
 //
 #define BEEPER_PIN                            61
 
-#define BTN_EN1                               44
-#define BTN_EN2                               45
-#define BTN_ENC                               33
+//Dondi commented below
+//#define BTN_EN1                               44
+//#define BTN_EN2                               45
+//#define BTN_ENC                               33
 
+
+//Dondi commented below
+/*
 #if ENABLED(REPRAPWORLD_GRAPHICAL_LCD)
 
   #define LCD_PINS_RS                         56  // CS chip select / SS chip slave select
@@ -155,17 +218,17 @@
 
 #else
 
-  #define LCD_PINS_RS                         32
-  #define LCD_PINS_ENABLE                     31
-  #define LCD_PINS_D4                         14
-  #define LCD_PINS_D5                         30
-  #define LCD_PINS_D6                         39
-  #define LCD_PINS_D7                         15
+  #define LCD_PINS_RS                         32 //
+  #define LCD_PINS_ENABLE                     31 //
+  #define LCD_PINS_D4                         14 //
+  #define LCD_PINS_D5                         30 //
+  #define LCD_PINS_D6                         39 //
+  #define LCD_PINS_D7                         15 //
 
-  #define SHIFT_CLK                           43
-  #define SHIFT_LD                            35
-  #define SHIFT_OUT                           34
-  #define SHIFT_EN                            44
+  #define SHIFT_CLK                           43 //
+  #define SHIFT_LD                            35 //
+  #define SHIFT_OUT                           34 //
+  #define SHIFT_EN                            44 //
 
   #if MB(MEGATRONICS_31, MEGATRONICS_32)
     #define SD_DETECT_PIN                     56
@@ -196,3 +259,5 @@
   #define SPINDLE_LASER_ENA_PIN               17  // Pullup!
   #define SPINDLE_DIR_PIN                      5
 #endif
+*/
+

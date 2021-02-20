@@ -51,6 +51,40 @@ void servo_init() {
     servo[3].attach(SERVO3_PIN);
     servo[3].detach();
   #endif
+  #if NUM_SERVOS >= 5 && HAS_SERVO_4  //Dondi here and below
+    servo[4].attach(SERVO4_PIN);
+    servo[4].detach();
+  #endif  
+  #if NUM_SERVOS >= 6 && HAS_SERVO_5
+    servo[5].attach(SERVO5_PIN);
+    servo[5].detach();
+  #endif    
+  #if NUM_SERVOS >= 7 && HAS_SERVO_6
+    servo[6].attach(SERVO6_PIN);
+    servo[6].detach();
+  #endif     
+  #if NUM_SERVOS >= 8 && HAS_SERVO_7
+    servo[7].attach(SERVO7_PIN);
+    servo[7].detach();
+  #endif     
+  #if NUM_SERVOS >= 9 && HAS_SERVO_8
+    servo[8].attach(SERVO8_PIN);
+    servo[8].detach();
+  #endif     
+  #if NUM_SERVOS >= 10 && HAS_SERVO_9
+    servo[9].attach(SERVO9_PIN);
+    servo[9].detach();
+  #endif       
+  #if NUM_SERVOS >= 11 && HAS_SERVO_10
+    servo[10].attach(SERVO10_PIN);
+    servo[10].detach();
+  #endif    
+  #if NUM_SERVOS >= 12 && HAS_SERVO_11
+    servo[11].attach(SERVO11_PIN);
+    servo[11].detach();
+  #endif    
+  
+   //Dondi here and above
 }
 
 #endif // HAS_SERVOS

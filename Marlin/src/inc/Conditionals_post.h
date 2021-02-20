@@ -2116,6 +2116,30 @@
 #if PIN_EXISTS(SERVO3) && NUM_SERVOS > 3
   #define HAS_SERVO_3 1
 #endif
+#if PIN_EXISTS(SERVO4) && NUM_SERVOS > 4 //Dondi here and below
+  #define HAS_SERVO_4 1
+#endif
+#if PIN_EXISTS(SERVO5) && NUM_SERVOS > 5
+  #define HAS_SERVO_5 1
+#endif
+#if PIN_EXISTS(SERVO6) && NUM_SERVOS > 6
+  #define HAS_SERVO_6 1
+#endif
+#if PIN_EXISTS(SERVO7) && NUM_SERVOS > 7
+  #define HAS_SERVO_7 1
+#endif
+#if PIN_EXISTS(SERVO8) && NUM_SERVOS > 8
+  #define HAS_SERVO_8 1
+#endif
+#if PIN_EXISTS(SERVO9) && NUM_SERVOS > 9
+  #define HAS_SERVO_9 1
+#endif
+#if PIN_EXISTS(SERVO10) && NUM_SERVOS > 10
+  #define HAS_SERVO_10 1
+#endif
+#if PIN_EXISTS(SERVO11) && NUM_SERVOS > 11
+  #define HAS_SERVO_11 1
+#endif  //Dondi here and above
 #if NUM_SERVOS > 0
   #define HAS_SERVOS 1
 #endif

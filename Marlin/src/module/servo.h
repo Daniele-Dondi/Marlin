@@ -97,6 +97,30 @@
         , { ASRC(2,0), ASRC(2,1) }
         #if NUM_SERVOS > 3
           , { ASRC(3,0), ASRC(3,1) }
+    #if NUM_SERVOS > 4    //Dondi here and below
+      , { ASRC(4,0), ASRC(4,1) }
+      #if NUM_SERVOS > 5
+        , { ASRC(5,0), ASRC(5,1) }
+        #if NUM_SERVOS > 6
+          , { ASRC(6,0), ASRC(6,1) }
+    #if NUM_SERVOS > 7
+      , { ASRC(7,0), ASRC(7,1) }
+      #if NUM_SERVOS > 8
+        , { ASRC(8,0), ASRC(8,1) }
+        #if NUM_SERVOS > 9
+          , { ASRC(9,0), ASRC(9,1) }
+    #if NUM_SERVOS > 10
+      , { ASRC(10,0), ASRC(10,1) }
+      #if NUM_SERVOS > 11
+        , { ASRC(11,0), ASRC(11,1) }
+        #endif   
+        #endif 
+        #endif 
+        #endif 
+        #endif 
+        #endif 
+        #endif
+        #endif //Dondi here and above
         #endif
       #endif
     #endif
