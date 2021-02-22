@@ -4,7 +4,7 @@ Based on a DerAndere project
 repository [DerAndere1/Marlin at https://github.com](https://github.com/DerAndere1/Marlin/tree/Marlin2ForPipetBot), the [Wiki](https://github.com/DerAndere1/Marlin/wiki)
 or on the [PipetBot-A8 project homepage](https://derandere.gitlab.io/pipetbot-a8) 
 .
-This project is intended for a syringebot robot for liquid handling for driving chemical reactions.
+This project is intended for a liquid handling robot (Syringe Robot) for driving chemical reactions.
 The current version supports up to 6 syringes.
 For each syringe two servocontrolled valves drive the liquids inside a reaction vessel that is thermocontrolled with PID. 
 The current version supports and is tested only on the Megatronics v.3 board.
