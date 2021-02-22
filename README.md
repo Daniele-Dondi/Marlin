@@ -10,7 +10,7 @@ For each syringe two servocontrolled valves drive the liquids inside a reaction 
 The current version supports and is tested only on the Megatronics v.3 board.
 ![Megatronics 3 pic](https://github.com/Daniele-Dondi/Marlin/blob/SyringeBot/img/megatronics-board.jpg?raw=true)
 
-## Marlin2ForPipetBot Branch
+## SyringeBot Branch
 
 __Not for production use. Use with caution!__
 
