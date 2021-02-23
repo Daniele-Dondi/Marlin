@@ -2,7 +2,7 @@
  
 Based on a DerAndere project 
 repository [DerAndere1/Marlin at https://github.com](https://github.com/DerAndere1/Marlin/tree/Marlin2ForPipetBot), the [Wiki](https://github.com/DerAndere1/Marlin/wiki)
-or on the [PipetBot-A8 project homepage](https://derandere.gitlab.io/pipetbot-a8) 
+or on the [PipetBot-A8 project homepage](https://derandere.gitlab.io/pipetbot-a8)  that is a MArlin 2 clone
 .
 This project is intended for a liquid handling robot (Syringe Robot) for driving chemical reactions.
 The current version supports up to 6 syringes.
