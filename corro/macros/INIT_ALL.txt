@@ -1,0 +1,7 @@
+macro "Init_Robot"
+buffer
+macro "home syringe 1"
+macro "home syringe 2"
+macro "home syringe 3"
+print
+

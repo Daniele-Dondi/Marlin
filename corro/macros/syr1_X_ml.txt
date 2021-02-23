@@ -1,0 +1,12 @@
+eval $ml$,185-$1$*3.08334
+macro "valve_X_exit_2"0
+send G1 Z$ml$,0;suck
+send M400,0
+macro "valve_X_exit_1"0
+macro "valve_X_exit_2"1
+send G1 Z185,0;eject
+send M400,0
+log loaded $ml$ ml from syringe 1
+
+
+

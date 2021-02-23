@@ -1,0 +1,5 @@
+buffer
+ask $ML$,Syringe 1,Enter how many ml to put,10,10,60
+macro "syr1_X_ml"$ML$
+print
+

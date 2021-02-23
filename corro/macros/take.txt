@@ -1,0 +1,13 @@
+send G1 Z200,1
+send G1 X30 Y120,1
+send G1 Z130,1
+send M83,1
+log sample taken
+send G1 E-16,1
+send G1 Z200,1
+
+
+
+
+
+
