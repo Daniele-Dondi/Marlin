@@ -278,7 +278,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
        commands=line.split('!,')
        commands[0]=commands[0][5:] # remove exec
        code=SubstituteVarValues(commands[0],variables) #substitute variable names with values
-       code=code.replace('/n',os.linesep) # /n in code was translated in newline
+       code=code.replace('/n',os.linesep) # /n in code is translated in newline
        commands=commands[1].split(',')
        codevars=[]
        namevars=[]
@@ -540,7 +540,7 @@ def Connect(): #connect to robot, syringe and electrodes. Start cycling by calli
 
 
 #MAIN CYCLE
-def MainCycle():  #loop for sending temperature messages, reading electrodes values and update graphs
+def MainCycle():  #loop for sending temperature messages, reading electrodes values and updating graphs
   #global electrodes
   global connected
   global T_Actual, T_SetPoint
