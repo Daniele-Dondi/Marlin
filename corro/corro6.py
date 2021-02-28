@@ -252,7 +252,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
     elif line.find('buffer')==0: #buffer all commands, send later. Used for long gcode sequence where send will fail
         IsBuffered0=True
         Gcode0=[]
-    elif line.find('print')==0: #buffer all commands, send later. Used for long gcode sequence where send will fail
+    elif line.find('print')==0: #send all buffered commands. Used for long gcode sequences
         if (IsBuffered0):
             IsBuffered0=False
             StartPrint0()
@@ -292,7 +292,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
        for x in range(0,len(namevars)):
            RefreshVarValues(namevars[x],l[codevars[x]],variables)
       except:
-       tkinter.messagebox.showerror("ERROR in eval method","use: exec code!,varname1=$var1$,...")       
+       tkinter.messagebox.showerror("ERROR in exec method","use: exec code!,varname1=$var1$,...")       
     elif line.find('macro')==0: #we've to call a nested macro
       try:
        commands=line.split('"',2)
@@ -304,7 +304,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
        except ValueError:  tkinter.messagebox.showerror("ERROR in macro call",'macro '+commands[1]+' does not exist')
       except:
        tkinter.messagebox.showerror("ERROR in macro call",'use: macro "macroname" var1,var2..')
-    elif line.find('echo')==0: #we've to print a var
+    elif line.find('echo')==0: #we've to echo to the console
       try:
        commands=line.split(' ',1)
        commands[1]=SubstituteVarValues(commands[1],variables) #substitute var names with values
