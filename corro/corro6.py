@@ -1,3 +1,21 @@
+ # Program CORRO
+ #
+ # Copyright (c) 2021 Daniele Dondi
+ #
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation, either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # This program is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ #
+ #
 import PIL.Image
 from threading import Timer
 import tkinter
@@ -16,7 +34,7 @@ import serial
 from os import listdir
 from os.path import isfile, join
 import sys
-sys.path.append('/home/pi/Printrun')
+sys.path.append('/home/pi/Printrun') #put here your path to Printrun software
 from printrun.printcore import *
 from printrun.utils import *
 from printrun import gcoder

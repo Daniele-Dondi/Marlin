@@ -3,7 +3,8 @@ all variables must start and end with a dollar sign.
 Example:
 $x$
 Variables are case sensitive, so $x$ is different from $X$
-The variable $return$ is RESERVED. It is internally used to return values from macros
+The variable $return$ is RESERVED. It is internally used to return values from macros.
+Variables named $1$, $2$... are automatically assigned when parameters are sent to a macro.
 To assign an initial value to a var the eval command must be used:
 eval $x$,1
 corresponds to $x$=1
@@ -22,8 +23,8 @@ date time
 This helps to find the log data in the file.
 
 
-log')==0: #print string to log file
-("ERROR in log method","use: log text")
+log Print string to log file
+use: log text
 The command add the text to the log queue.
 variables contained in text will be replaced automatically.
 Example1:
@@ -34,19 +35,21 @@ eval $x$,1
 log x=$x$
 it writes 'x=1' in the log queue
 
-('buffer')==0: #buffer all commands, send later. Used for long gcode sequence where send will fail
+buffer Buffer all commands, send later. Used for long gcode sequence where send will fail
 
-('print')==0: #buffer all commands, send later. Used for long gcode sequence where send will fail
+print Send all buffered commands. Used for long gcode sequence where send will fail
 
-ask')==0: #if ask, make question to user
-("ERROR in ask method","use: ask $varname$,title,question,initialvalue,minvalue,maxvalue")
+ask Ask of a user input
+use: ask $varname$,title,question,initialvalue,minvalue,maxvalue
+Example:
 buffer
 ask $ML$,Syringe 1,Enter how many ml to put,10,10,60
 macro "syr1_X_ml"$ML$
 print
 
-('eval')==0: #we've to calculate somethg
-("ERROR in eval method","use: eval $varname$,math_expression")
+eval Evaluate a mathematical expression
+use: eval $varname$,math_expression
+Example:
 eval $ml$,185-$1$*3.08334
 macro "valve_X_exit_2"0
 send G1 Z$ml$,0;suck
@@ -58,21 +61,29 @@ send M400,0
 log loaded $ml$ ml from syringe 1
 
 
-('exec')==0: #we've to execute somethg
-("ERROR in eval method","use: exec code!,varname1=$var1$,...")      
+exec Executes Python's code. Code might contain variables ($..$). Code on multiple lines must be separated with /n
+use: exec code!,varname1=$var1$,...
 
-('macro')==0: #we've to call a nested macro
-("ERROR in macro call",'use: macro "macroname" var1,var2..')
+macro Call an existing macro
+use: macro "macroname" var1,var2...
+This command execute a macro with the name macroname.
+All the macro files are saved in the directory macros with the extensions .txt and they can be edited with a plain text editor.
+It is possible to pass parameters to a macro by indicating their values: var1,var2...
+Example:
 macro "syr1_X_ml"20
+If parameters are passed (var1,var2...) variables $1$... will be automatically created and assigned.
+In the example above, the macro syr1_X_ml is called and the value 20 is inserted in the variable $1$
 
-('echo')==0: #we've to echo to the console
-("ERROR in echo method","use: echo text $varname$")
+
+
+echo Print to the console. Variables are automatically substituted with their values before printing.
+use: echo text $varname$
 ask $X$,Vial X position,Enter vial X position,1,1,8
 ask $Y$,Vial Y position,Enter vial Y position,1,1,6
 eval $X$,58-($X$-1)*15.71328
 eval $Y$,121+($Y$-1)*14.8
 echo X=$X$    Y=$Y$
 
-('send')==
+send Send a Gcode command
 ("ERROR in send method","use: send command,where")
 send G28 X Y,1
