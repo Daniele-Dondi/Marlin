@@ -8,6 +8,8 @@ Variables named $1$, $2$... are automatically assigned when parameters are sent 
 To assign an initial value to a var the eval command must be used:
 eval $x$,1
 corresponds to $x$=1
+comments:
+line following the semicolon (;) are considered as comment and ignored
 
 When program is executed and the connect button is pressed the variables (temperature etc.) will be automatically appended to log.txt file.
 The following header is added first
@@ -35,7 +37,7 @@ eval $x$,1
 log x=$x$
 it writes 'x=1' in the log queue
 
-buffer Buffer all commands, send later. Used for long gcode sequence where send will fail
+buffer Buffer all commands; send later (with print). Used for long gcode sequence where the base command send will fail.
 
 print Send all buffered commands. Used for long gcode sequence where send will fail
 
@@ -72,7 +74,7 @@ It is possible to pass parameters to a macro by indicating their values: var1,va
 Example:
 macro "syr1_X_ml"20
 If parameters are passed (var1,var2...) variables $1$... will be automatically created and assigned.
-In the example above, the macro syr1_X_ml is called and the value 20 is inserted in the variable $1$
+In the example above, the macro syr1_X_ml is called and the value 20 is inserted in the variable $1$ of the macro
 
 
 

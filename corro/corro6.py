@@ -194,6 +194,7 @@ w2.bind("<Button-1>", onclick) #bind click procedure to graphic control
 w2.bind("<Button-2>", onmiddleclick) #bind click procedure to graphic control
 w2.bind("<Button-3>", onrightclick) #bind click procedure to graphic control
 w2.pack()
+#insert here the load config file  TODO
 Aimage=PhotoImage(file="mostro.png")
 w2.create_image(0, 0, image = Aimage, anchor=NW)
 im = PIL.Image.open('mostroMASK.png') # load the mask here
@@ -414,6 +415,7 @@ def Close():
  else:    
   MsgBox = tkinter.messagebox.askquestion ('Exit Application','Are you sure you want to exit the application?',icon = 'warning')
   if MsgBox == 'yes':  
+     #insert here the save config file  TODO
      base.destroy()
 
 def ResetChart():
