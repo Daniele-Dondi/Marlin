@@ -1,9 +1,10 @@
 /*
- # This sample code is used to test the pH meter V1.0.
+ # Based on the code written by
  # Editor : YouYou
  # Ver    : 1.0
  # Product: analog pH meter
  # SKU    : SEN0161
+ # Modified by Daniele Dondi
 */
 #define SensorPin A0            //pH meter Analog output to Arduino Analog Input 0
 #define Sensor2Pin A1            //pH meter Analog output to Arduino Analog Input 0
