@@ -7,7 +7,7 @@
  # Modified by Daniele Dondi
 */
 #define SensorPin A0            //pH meter Analog output to Arduino Analog Input 0
-#define Sensor2Pin A1            //pH meter Analog output to Arduino Analog Input 0
+#define Sensor2Pin A1            //ORP combined electrode Analog output to Arduino Analog Input 1
 #define LED 13
 #define samplingInterval 20
 #define printInterval 1000
