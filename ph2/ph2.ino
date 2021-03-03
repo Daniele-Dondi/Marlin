@@ -9,19 +9,19 @@
 #define SensorPin A0            //pH meter Analog output to Arduino Analog Input 0
 #define Sensor2Pin A1            //ORP combined electrode Analog output to Arduino Analog Input 1
 #define LED 13
-#define samplingInterval 20
-#define printInterval 1000
-#define ArrayLenth  40    //times of collection
-int pHArray[ArrayLenth];   //Store the average value of the sensor feedback
-int pHArray2[ArrayLenth];   //Store the average value of the sensor feedback
+#define samplingInterval 20  //sampling interval in ms
+#define printInterval 1000  //serial writing interval in ms
+#define ArrayLength  40    //the output value is an average over arraylength
+int pHArray[ArrayLength];   //Store the average value of the sensor feedback
+int pHArray2[ArrayLength];   //Store the average value of the sensor feedback
 int pHArrayIndex=0;    
 long tempo;
 void setup(void)
 {
   pinMode(LED,OUTPUT);  
   Serial.begin(9600);  
-  Serial.println("RadChemLab Connected");    //Test the serial monitor
-  Serial.println("Time (s)\t Voltage (V)\t Voltage2 (V)");    //Test the serial monitor  
+  Serial.println("Electrodes Connected, log starts");    //Test the serial monitor
+  Serial.println("Time (s)\t Voltage1 (V)\t Voltage2 (V)");    //Test the serial monitor  
   tempo=0;
 }
 void loop(void)
@@ -34,12 +34,12 @@ void loop(void)
       pHArrayIndex++;
       pHArray[pHArrayIndex]=analogRead(SensorPin);
       pHArray2[pHArrayIndex]=analogRead(Sensor2Pin);      
-      if(pHArrayIndex>=ArrayLenth)pHArrayIndex=0;
-      voltage = avergearray(pHArray, ArrayLenth)*5.0/1024;
-      voltage2 = avergearray(pHArray2, ArrayLenth)*5.0/1024;      
+      if(pHArrayIndex>=ArrayLength)pHArrayIndex=0;
+      voltage = avergearray(pHArray, ArrayLength)*5.0/1024;
+      voltage2 = avergearray(pHArray2, ArrayLength)*5.0/1024;      
       samplingTime=millis();
   }
-  if(millis() - printTime > printInterval)   //Every printinterval milliseconds, print a numerical, convert the state of the LED indicator
+  if(millis() - printTime > printInterval)   //Every printinterval milliseconds, print voltages, convert the state of the LED indicator
   {
         tempo++;
         Serial.print(tempo);
@@ -57,7 +57,7 @@ double avergearray(int* arr, int number){
   double avg;
   long amount=0;
   if(number<=0){
-    Serial.println("Error number for the array to averaging!\n");
+    Serial.println("Error! number must be a positive integer\n");
     return 0;
   }
   if(number<5){   //less than 5, calculated directly statistics
