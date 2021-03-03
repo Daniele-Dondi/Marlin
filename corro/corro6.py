@@ -330,6 +330,13 @@ def Parse(line,variables):    #parse macro lines and executes statements
        print(commands[1])
       except:
        tkinter.messagebox.showerror("ERROR in echo method","use: echo text $varname$")
+    elif line.find('message')==0: #create a messagebox
+      try:
+       commands=line.split(' ',1)
+       commands[1]=SubstituteVarValues(commands[1],variables) #substitute var names with values
+       tkinter.messagebox.showinfo('info',commands[1])
+      except:
+       tkinter.messagebox.showerror("ERROR in message method","use: message text $varname$")
     elif line.find('send')==0:
       try:
        commands=line   
