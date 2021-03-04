@@ -90,3 +90,17 @@ double avergearray(int* arr, int number){
   }//if
   return avg;
 }
+double averagearray(int* arr, int number){
+  int i;
+  double avg;
+  long amount=0;
+  if(number<=0){
+    Serial.println("Error! number must be a positive integer\n");
+    return 0;
+  }
+    for(i=1;i<=number;i++)
+      amount+=arr[i];
+    avg = (double)amount/(number-1);
+  
+  return avg;
+}
