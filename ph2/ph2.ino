@@ -100,7 +100,7 @@ double averagearray(int* arr, int number){
   }
     for(i=1;i<=number;i++)
       amount+=arr[i];
-    avg = (double)amount/(number-1);
+    avg = (double)amount/(number);
   
   return avg;
 }
