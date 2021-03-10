@@ -12,8 +12,8 @@
 #define samplingInterval 20  //sampling interval in ms
 #define printInterval 1000  //serial writing interval in ms
 #define ArrayLength  40    //the output value is an average over arraylength
-int pHArray[ArrayLength];   //Store the average value of the sensor feedback
-int pHArray2[ArrayLength];   //Store the average value of the sensor feedback
+int pHArray[ArrayLength];   //Store the average value of the sensor 1
+int pHArray2[ArrayLength];   //Store the average value of the sensor 2
 int pHArrayIndex=0;    
 long tempo;
 void setup(void)
@@ -21,7 +21,7 @@ void setup(void)
   pinMode(LED,OUTPUT);  
   Serial.begin(9600);  
   Serial.println("Electrodes Connected, log starts");    //Test the serial monitor
-  Serial.println("Time (s)\t Voltage1 (V)\t Voltage2 (V)");    //Test the serial monitor  
+  Serial.println("Time (s)\t Voltage1 (V)\t Voltage2 (V)");    //output table header  
   tempo=0;
 }
 void loop(void)
@@ -39,7 +39,7 @@ void loop(void)
       voltage2 = avergearray(pHArray2, ArrayLength)*5.0/1024;      
       samplingTime=millis();
   }
-  if(millis() - printTime > printInterval)   //Every printinterval milliseconds, print voltages, convert the state of the LED indicator
+  if(millis() - printTime > printInterval)   //Every printinterval milliseconds, print voltages, toggle the state of the LED indicator
   {
         tempo++;
         Serial.print(tempo);
