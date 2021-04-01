@@ -1,3 +1,14 @@
+//Change these values according to your syringe
+//Following values are for our 10 ml syringe
+d_piston=16.6;
+d_plunger=14;
+d_syringeholder=32.2;
+d_syringe=16.6;
+h_syringegroove=4.1;
+
+
+//other parameters
+depthsiringehole=2;
 thickness=8;
 cut=thickness+2;
 thickness2=15; //thickness pushing structure
@@ -16,14 +27,14 @@ h_M3_nut=3;
 r_LM8UU=8;
 lung=30;
 
-//Change these values according to your syringe
-//Following values are for our 10 ml syringe
-r_piston=8.3;
-r_plunger=7;
-r_syringeholder=32.2/2;
-r_syringe=16.6/2;
-depthsiringehole=2;
-h_syringegroove=4.1;
+
+
+//follows calculations
+r_piston=d_piston/2;
+r_plunger=d_plunger/2;
+r_syringeholder=d_syringeholder/2;
+r_syringe=d_syringe/2;
+
 
 //=== syringe central holder
 translate([0,0,90]){
