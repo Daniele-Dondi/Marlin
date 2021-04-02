@@ -68,9 +68,47 @@ pixboundedmacro=[] # list of macros bound to pixels
 colorsbound=[]     # list of colors bound. Refers to above macros name
 logfile=0
 Gcode0=[]
-IsBuffered0=False;
+IsBuffered0=False
+#following parameters must be read from configuration.txt file
+NumSyringes=0 #Number of installed syringes
+SyringeMax=[] #Syringe max millimeters
+SyringeVol=[] #Syringe max volume
+VolInlet=0
+VolOutlet=0
 
 
+def showscheme():
+    global visible
+    global chart_h,chart_w,w_fullsize
+    if w_fullsize:
+     chart_w=200
+     chart_h=200
+     w.config(width=chart_w,height=chart_h)
+     IM.pack() #show graphic control
+     w_fullsize=False
+    else: 
+     chart_w=800
+     chart_h=600
+     w.config(width=chart_w,height=chart_h)
+     IM.pack_forget() #hide graphic control
+     w_fullsize=True
+
+def resize():
+    global visible
+    global chart_h,chart_w,w_fullsize
+    if visible==1:
+     Z.pack_forget()   
+     F.pack_forget()
+     visible = 0
+    else:
+     Graph.pack_forget() #hide chart
+     IM.pack_forget() #hide graphic control
+     F.pack(side="left",fill="y")
+     Z.pack(side="left",fill="y")
+     Graph.pack(side="left")
+     if not(w_fullsize): IM.pack() #show graphic control
+     visible = 1
+    
 
 def keypress(event):  #keyboard shortcuts
     global visible
@@ -78,31 +116,24 @@ def keypress(event):  #keyboard shortcuts
     if event.keysym == 'Escape': #quit program
         Close()
     if event.keysym == 'Alt_L': #show/hide commands
-        if visible==1:
-         Z.pack_forget()   
-         F.pack_forget()
-         visible = 0
-        else:
-         Graph.pack_forget() #hide chart
-         IM.pack_forget() #hide graphic control
-         F.pack(side="left",fill="y")
-         Z.pack(side="left",fill="y")
-         Graph.pack(side="left")
-         if not(w_fullsize): IM.pack() #show graphic control
-         visible = 1
+        resize()
     if event.keysym == 'F1': #resize chart canvas
-        if w_fullsize:
-         chart_w=200
-         chart_h=200
-         w.config(width=chart_w,height=chart_h)
-         IM.pack() #show graphic control
-         w_fullsize=False
-        else: 
-         chart_w=800
-         chart_h=600
-         w.config(width=chart_w,height=chart_h)
-         IM.pack_forget() #hide graphic control
-         w_fullsize=True
+        showscheme()
+
+def readConfigurationFile():
+        global NumSyringes,SyringeMax,SyringeVol,VolInlet,VolOutlet
+    #try:
+        conf_file = open("configuration.txt", "r")
+        lines=conf_file.readlines()
+        conf_file.close()
+        NumSyringes=lines[1]
+        for x in range(int(NumSyringes)):
+            print(lines[3+x])
+            l=lines[3+x].split(";")
+            SyringeMax[x]=l[0]
+            SyringeVol[x]=l[1]
+    #except:    
+     #tkinter.messagebox.showerror("ERROR","Error reading configuration file. Please quit program")  
 
 def onclick(event):
     global pix
@@ -195,10 +226,14 @@ w2.bind("<Button-2>", onmiddleclick) #bind click procedure to graphic control
 w2.bind("<Button-3>", onrightclick) #bind click procedure to graphic control
 w2.pack()
 #insert here the load config file  TODO
+readConfigurationFile()
 Aimage=PhotoImage(file="mostro.png")
 w2.create_image(0, 0, image = Aimage, anchor=NW)
 im = PIL.Image.open('mostroMASK.png') # load the mask here
 print (im.size) #get image size
+print (NumSyringes)
+print (SyringeMax)
+print (SyringeVol)
 pix = im.load()
 IM.pack_forget()
 

@@ -11,3 +11,7 @@
 10
 #outlet tube volume (ml)
 10
+#schematic image of the current configuration
+mostro.png
+#mask for the schematic image
+mostroMASK.png
