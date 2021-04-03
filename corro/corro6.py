@@ -30,14 +30,14 @@ from tkinter import ttk
 import time
 import datetime
 import os
-import serial
+#import serial
 from os import listdir
 from os.path import isfile, join
 import sys
 sys.path.append('/home/pi/Printrun') #put here your path to Printrun software
-from printrun.printcore import *
-from printrun.utils import *
-from printrun import gcoder
+#from printrun.printcore import *
+#from printrun.utils import *
+#from printrun import gcoder
 import logging
 
 #global vars
@@ -66,15 +66,18 @@ w_fullsize=True #chart starts fullsize. It can be resized with F1
 macrout=0      #global var for macros. Filled when macro returns a value
 pixboundedmacro=[] # list of macros bound to pixels
 colorsbound=[]     # list of colors bound. Refers to above macros name
+NewColorAssignment=0 # if a user assign a color during runtime this var is set to 1
 logfile=0
 Gcode0=[]
 IsBuffered0=False
 #following parameters must be read from configuration.txt file
 NumSyringes=0 #Number of installed syringes
-SyringeMax=[] #Syringe max millimeters
-SyringeVol=[] #Syringe max volume
+SyringeMax=[1,2,3,4,5,6] #Syringe max millimeters
+SyringeVol=[1,2,3,4,5,6] #Syringe max volume
 VolInlet=0
 VolOutlet=0
+SchematicImage=""
+MaskImage=""
 
 
 def showscheme():
@@ -111,8 +114,6 @@ def resize():
     
 
 def keypress(event):  #keyboard shortcuts
-    global visible
-    global chart_h,chart_w,w_fullsize
     if event.keysym == 'Escape': #quit program
         Close()
     if event.keysym == 'Alt_L': #show/hide commands
@@ -121,17 +122,25 @@ def keypress(event):  #keyboard shortcuts
         showscheme()
 
 def readConfigurationFile():
-        global NumSyringes,SyringeMax,SyringeVol,VolInlet,VolOutlet
+        global NumSyringes,SyringeMax,SyringeVol,VolInlet,VolOutlet,SchematicImage,MaskImage
     #try:
         conf_file = open("configuration.txt", "r")
         lines=conf_file.readlines()
         conf_file.close()
-        NumSyringes=lines[1]
-        for x in range(int(NumSyringes)):
-            print(lines[3+x])
+        NumSyringes=int(lines[1].strip())
+        for x in range(NumSyringes):
             l=lines[3+x].split(";")
-            SyringeMax[x]=l[0]
-            SyringeVol[x]=l[1]
+            SyringeMax[x]=l[0].strip()
+            SyringeVol[x]=l[1].strip()
+        curline=4+NumSyringes
+        VolInlet=int(lines[curline].strip())
+        curline+=2
+        VolOutlet=int(lines[curline].strip())
+        curline+=2
+        SchematicImage=lines[curline].strip()
+        curline+=2
+        MaskImage=lines[curline].strip()
+        curline+=2
     #except:    
      #tkinter.messagebox.showerror("ERROR","Error reading configuration file. Please quit program")  
 
@@ -178,7 +187,7 @@ def onrightclick(event):
     binder.grab_set()
 
 def Bind(text,color,window):
-    global pixboundedmacro, colorsbound
+    global pixboundedmacro, colorsbound,NewColorAssignment
     if text=="" or text==None: return
     if text in macrolist:
       if not(color in colorsbound):
@@ -186,6 +195,7 @@ def Bind(text,color,window):
           pixboundedmacro.append(text)
           window.destroy()
           print('macro ',text,' assigned to color ',color)
+          NewColorAssignment=1
       else:     tkinter.messagebox.askquestion ('error','color already assigned',icon = 'warning')
     else:     tkinter.messagebox.askquestion ('error','macro not found',icon = 'warning')  
   
@@ -227,13 +237,17 @@ w2.bind("<Button-3>", onrightclick) #bind click procedure to graphic control
 w2.pack()
 #insert here the load config file  TODO
 readConfigurationFile()
-Aimage=PhotoImage(file="mostro.png")
+Aimage=PhotoImage(file=SchematicImage) # load the scheme of the current configuration
 w2.create_image(0, 0, image = Aimage, anchor=NW)
-im = PIL.Image.open('mostroMASK.png') # load the mask here
+im = PIL.Image.open(MaskImage) # load the mask here
 print (im.size) #get image size
 print (NumSyringes)
 print (SyringeMax)
 print (SyringeVol)
+print (VolInlet)
+print (VolOutlet)
+print(SchematicImage)
+print(MaskImage)
 pix = im.load()
 IM.pack_forget()
 
@@ -452,12 +466,18 @@ def DeleteMacro():
 
 #Quit program
 def Close():
+ global pixboundedmacro, colorsbound,NewColorAssignment
  if connected != 0:
      tkinter.messagebox.showerror("ERROR","Disconnect first")
  else:    
   MsgBox = tkinter.messagebox.askquestion ('Exit Application','Are you sure you want to exit the application?',icon = 'warning')
   if MsgBox == 'yes':  
      #insert here the save config file  TODO
+     if NewColorAssignment==1:
+        MsgBox = tkinter.messagebox.askquestion ('Save color assignment','Do you want to save new assignments?',icon = 'question')
+        if MsgBox == 'yes':    
+         print(pixboundedmacro)
+         print(colorsbound)
      base.destroy()
 
 def ResetChart():
