@@ -13,5 +13,3 @@
 10
 #schematic image of the current configuration
 mostro.png
-#mask for the schematic image
-mostroMASK.png

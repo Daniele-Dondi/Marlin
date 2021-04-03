@@ -76,8 +76,9 @@ SyringeMax=[1,2,3,4,5,6] #Syringe max millimeters
 SyringeVol=[1,2,3,4,5,6] #Syringe max volume
 VolInlet=0
 VolOutlet=0
-SchematicImage=""
-MaskImage=""
+SchematicImage="" #file name for the image
+MaskImage=""      #file name for the mask image
+MaskMacros=""     #file name for the bounded colors to macros
 
 
 def showscheme():
@@ -121,8 +122,8 @@ def keypress(event):  #keyboard shortcuts
     if event.keysym == 'F1': #resize chart canvas
         showscheme()
 
-def readConfigurationFile():
-        global NumSyringes,SyringeMax,SyringeVol,VolInlet,VolOutlet,SchematicImage,MaskImage
+def readConfigurationFiles():
+        global NumSyringes,SyringeMax,SyringeVol,VolInlet,VolOutlet,SchematicImage,MaskImage,MaskMacros,colorsbound,pixboundedmacro
     #try:
         conf_file = open("configuration.txt", "r")
         lines=conf_file.readlines()
@@ -138,11 +139,21 @@ def readConfigurationFile():
         VolOutlet=int(lines[curline].strip())
         curline+=2
         SchematicImage=lines[curline].strip()
-        curline+=2
-        MaskImage=lines[curline].strip()
-        curline+=2
+        MaskImage=SchematicImage.rsplit( ".", 1 )[ 0 ]+"-mask.png"
+        MaskMacros=SchematicImage.rsplit( ".", 1 )[ 0 ]+"-binds.txt"
     #except:    
-     #tkinter.messagebox.showerror("ERROR","Error reading configuration file. Please quit program")  
+     #tkinter.messagebox.showerror("ERROR","Error reading configuration file. Please quit program")
+        try:
+         bind_file = open(MaskMacros, "r")
+         lines=bind_file.readlines()
+         bind_file.close()
+         NumBinds=int(lines[1].strip())
+         for x in range(NumBinds):        
+          pixboundedmacro.append(lines[3+x].strip())
+          colorsbound.append(eval(lines[4+x+NumBinds]))
+        except:
+         tkinter.messagebox.showwarning("Warning","Current schematic has no colors defined with macros")
+
 
 def onclick(event):
     global pix
@@ -236,7 +247,7 @@ w2.bind("<Button-2>", onmiddleclick) #bind click procedure to graphic control
 w2.bind("<Button-3>", onrightclick) #bind click procedure to graphic control
 w2.pack()
 #insert here the load config file  TODO
-readConfigurationFile()
+readConfigurationFiles()
 Aimage=PhotoImage(file=SchematicImage) # load the scheme of the current configuration
 w2.create_image(0, 0, image = Aimage, anchor=NW)
 im = PIL.Image.open(MaskImage) # load the mask here
@@ -466,7 +477,7 @@ def DeleteMacro():
 
 #Quit program
 def Close():
- global pixboundedmacro, colorsbound,NewColorAssignment
+ global pixboundedmacro, colorsbound,NewColorAssignment,MaskMacros
  if connected != 0:
      tkinter.messagebox.showerror("ERROR","Disconnect first")
  else:    
@@ -475,7 +486,16 @@ def Close():
      #insert here the save config file  TODO
      if NewColorAssignment==1:
         MsgBox = tkinter.messagebox.askquestion ('Save color assignment','Do you want to save new assignments?',icon = 'question')
-        if MsgBox == 'yes':    
+        if MsgBox == 'yes':
+         out_file = open(MaskMacros, "w")
+         out_file.write("#num of bound colors\n")
+         out_file.write(str(len(pixboundedmacro))+"\n#pixboundedmacro\n")
+         for pix in pixboundedmacro:
+          out_file.write(pix+"\n")
+         out_file.write("#colorbound\n")
+         for col in colorsbound:
+          out_file.write(str(col)+"\n")          
+         out_file.close()
          print(pixboundedmacro)
          print(colorsbound)
      base.destroy()

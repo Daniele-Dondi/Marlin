@@ -1,0 +1,14 @@
+#num of bound colors
+5
+#pixboundedmacro
+GO
+goto XY
+take
+prime syringe 1
+INIT_ALL
+#colorbound
+(237, 28, 36, 255)
+(0, 162, 232, 255)
+(34, 177, 76, 255)
+(80, 10, 0, 255)
+(10, 10, 0, 255)
