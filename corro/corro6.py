@@ -123,8 +123,8 @@ def keypress(event):  #keyboard shortcuts
         showscheme()
 
 def readConfigurationFiles():
-        global NumSyringes,SyringeMax,SyringeVol,VolInlet,VolOutlet,SchematicImage,MaskImage,MaskMacros,colorsbound,pixboundedmacro
-    #try:
+    global NumSyringes,SyringeMax,SyringeVol,VolInlet,VolOutlet,SchematicImage,MaskImage,MaskMacros,colorsbound,pixboundedmacro
+    try:
         conf_file = open("configuration.txt", "r")
         lines=conf_file.readlines()
         conf_file.close()
@@ -141,18 +141,18 @@ def readConfigurationFiles():
         SchematicImage=lines[curline].strip()
         MaskImage=SchematicImage.rsplit( ".", 1 )[ 0 ]+"-mask.png"
         MaskMacros=SchematicImage.rsplit( ".", 1 )[ 0 ]+"-binds.txt"
-    #except:    
-     #tkinter.messagebox.showerror("ERROR","Error reading configuration file. Please quit program")
-        try:
-         bind_file = open(MaskMacros, "r")
-         lines=bind_file.readlines()
-         bind_file.close()
-         NumBinds=int(lines[1].strip())
-         for x in range(NumBinds):        
-          pixboundedmacro.append(lines[3+x].strip())
-          colorsbound.append(eval(lines[4+x+NumBinds]))
-        except:
-         tkinter.messagebox.showwarning("Warning","Current schematic has no colors defined with macros")
+    except:    
+     tkinter.messagebox.showerror("ERROR","Error reading configuration file. Please quit program")
+    try:
+     bind_file = open(MaskMacros, "r")
+     lines=bind_file.readlines()
+     bind_file.close()
+     NumBinds=int(lines[1].strip())
+     for x in range(NumBinds):        
+      pixboundedmacro.append(lines[3+x].strip())
+      colorsbound.append(eval(lines[4+x+NumBinds]))
+    except:
+     tkinter.messagebox.showwarning("Warning","Current schematic has no colors defined with macros")
 
 
 def onclick(event):
