@@ -350,7 +350,6 @@ def Parse(line,variables):    #parse macro lines and executes statements
     elif line.find('getsyringeparms')==0: #load the values for the syringe  
      try:
       commands=line.split(' ',1)
-      print(commands[1])
       RefreshVarValues("$syringemax$",SyringeMax[int(commands[1])],variables)
       RefreshVarValues("$syringevol$",SyringeVol[int(commands[1])],variables)
       RefreshVarValues("$volinlet$",VolInlet,variables)
