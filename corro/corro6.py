@@ -349,11 +349,13 @@ def Parse(line,variables):    #parse macro lines and executes statements
       tkinter.messagebox.showerror("ERROR in ask method","use: ask $varname$,title,question,initialvalue,minvalue,maxvalue")
     elif line.find('getsyringeparms')==0: #load the values for the syringe  
      try:
+      axisnames=["X","Y","Z","I","J","K"]   
       commands=line.split(' ',1)
       RefreshVarValues("$syringemax$",SyringeMax[int(commands[1])],variables)
       RefreshVarValues("$syringevol$",SyringeVol[int(commands[1])],variables)
       RefreshVarValues("$volinlet$",VolInlet,variables)
       RefreshVarValues("$voloutlet$",VolOutlet,variables)
+      RefreshVarValues("$axisname$",axisnames[int(commands[1])],variables)
      except:
       tkinter.messagebox.showerror("ERROR in getsyringeparms method","use: getsyringeparms syringenumber")
     elif line.find('eval')==0: #we've to calculate somethg
