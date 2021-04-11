@@ -60,7 +60,7 @@ macrob=[]      #macro button array
 IsEditingMacro=0
 IsDeletingMacro=0
 visible = 1
-chart_w=800
+chart_w=800 #size of the temp and voltages chart
 chart_h=600
 w_fullsize=True #chart starts fullsize. It can be resized with F1
 macrout=0      #global var for macros. Filled when macro returns a value
@@ -131,18 +131,19 @@ def readConfigurationFiles():
         NumSyringes=int(lines[1].strip())
         for x in range(NumSyringes):
             l=lines[3+x].split(";")
-            SyringeMax[x]=l[0].strip()
-            SyringeVol[x]=l[1].strip()
+            SyringeMax[x]=float(l[0].strip())*2 #annoyngly we have to multiply by 2 to have the correct movement in mm
+            SyringeVol[x]=float(l[1].strip())
         curline=4+NumSyringes
-        VolInlet=int(lines[curline].strip())
+        VolInlet=float(lines[curline].strip())
         curline+=2
-        VolOutlet=int(lines[curline].strip())
+        VolOutlet=float(lines[curline].strip())
         curline+=2
         SchematicImage=lines[curline].strip()
         MaskImage=SchematicImage.rsplit( ".", 1 )[ 0 ]+"-mask.png"
         MaskMacros=SchematicImage.rsplit( ".", 1 )[ 0 ]+"-binds.txt"
     except:    
      tkinter.messagebox.showerror("ERROR","Error reading configuration file. Please quit program")
+
     try:
      bind_file = open(MaskMacros, "r")
      lines=bind_file.readlines()
@@ -310,7 +311,7 @@ def SubstituteVarValues(line,variables): #substitute values to var names $var$ i
     line=line.replace('$return$',str(macrout))
     return line    
 
-def RefreshVarValues(var_name,value,variables): #if a variable exists, update its value. If not exists, create it
+def RefreshVarValues(var_name,value,variables): #if a variable exists, update its value. If it does not exist, create it
     if not(var_name in variables):
        variables.append(var_name)#save var name
        variables.append(value)          #save value
@@ -351,6 +352,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
      try:
       axisnames=["X","Y","Z","I","J","K"]   
       commands=line.split(' ',1)
+      commands[1]=SubstituteVarValues(commands[1],variables) #substitute var names with values
       RefreshVarValues("$syringemax$",SyringeMax[int(commands[1])],variables)
       RefreshVarValues("$syringevol$",SyringeVol[int(commands[1])],variables)
       RefreshVarValues("$volinlet$",VolInlet,variables)
@@ -566,6 +568,7 @@ def sendcommand(cmd,where): #send a gcode command
     global connected,IsBuffered0
     destination=['Syringe','Robot']
     if connected==1:
+      '''  
       if where==0:  #0 = syringe
        if (IsBuffered0):
            Gcode0.append(cmd)
@@ -573,6 +576,7 @@ def sendcommand(cmd,where): #send a gcode command
         syringe.send(cmd)
       else:         #1 = robot
        robot.send(cmd)
+      ''' 
       print(cmd,"->",destination[where])
     else:    tkinter.messagebox.showerror("ERROR","Not connected. Connect first")
 
@@ -615,6 +619,7 @@ def Connect(): #connect to robot, syringe and electrodes. Start cycling by calli
     global connected, robot, syringe, electrodes, logfile
     if connected == 0 :
         connected = 1
+        '''
         try:
          robot=printcore('/dev/ttyUSB0',250000)
         except:
@@ -637,8 +642,9 @@ def Connect(): #connect to robot, syringe and electrodes. Start cycling by calli
             logfile.write("----------------------------------\n")
             logfile.write(str(datetime.datetime.now())+"\n")
         except:
-           tkinter.messagebox.showerror("ERROR", "Error writing log file")  
+           tkinter.messagebox.showerror("ERROR", "Error writing log file")
         threading.Timer(0.1, MainCycle).start()
+        '''        
     else:
      MsgBox = tkinter.messagebox.askquestion ('Disconnect','Are you sure you want to disconnect?',icon = 'warning')
      if MsgBox == 'yes':
