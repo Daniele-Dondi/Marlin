@@ -430,7 +430,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
 def Macro(num,*args): #run a macro. Call Parse function for line by line execution. Delete a macro or edit
     global IsEditingMacro,IsDeletingMacro,macrob,macrout
     variables=[]
-    i=0
+    stack=[] #stack keeps line number of for cycles
     for ar in args:
       #print('params',ar)
       par=ar.split(',')
@@ -444,8 +444,9 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
       if connected==1:   
        print('executing macro:',macrolist[num])
        with open('macros/'+macrolist[num]+'.txt') as macro_file:
-        for line in macro_file:
-         Parse(line,variables)
+        i=0   
+        #for line in macro_file:
+        Parse(macro_file[i],variables)
        if '$return$' in variables: macrout=SubstituteVarValues("$return$",variables)
        print (variables)  #DEBUG
       else:  tkinter.messagebox.showerror("ERROR","Not connected. Connect first")
