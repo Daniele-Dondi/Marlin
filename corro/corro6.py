@@ -327,7 +327,8 @@ def Parse(line,variables):    #parse macro lines and executes statements
     if line.find('log')==0: #print string to log file
      try:
       commands=line.split(' ',1)
-      commands[0]=commands[0][4:] # remove log
+      #commands[0]=commands[0][4:] # remove log
+      print(commands[1])
       commands[1]=SubstituteVarValues(commands[1],variables) #substitute var names with values
       logfile.write(commands[1]+"\n")
      except:
@@ -425,12 +426,11 @@ def Parse(line,variables):    #parse macro lines and executes statements
     else:
         #command not recognized
         print('unknown command',SubstituteVarValues(line,variables))
-    
 
 def Macro(num,*args): #run a macro. Call Parse function for line by line execution. Delete a macro or edit
     global IsEditingMacro,IsDeletingMacro,macrob,macrout
     variables=[]
-    stack=[] #stack keeps line number of for cycles
+    stack=[] #stack keeps line numbers for cycles
     for ar in args:
       #print('params',ar)
       par=ar.split(',')
@@ -444,9 +444,30 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
       if connected==1:   
        print('executing macro:',macrolist[num])
        with open('macros/'+macrolist[num]+'.txt') as macro_file:
+        lines=macro_file.readlines() #read the entire file and put lines into an array
         i=0   
-        #for line in macro_file:
-        Parse(macro_file[i],variables)
+        while (i<len(lines)):
+         line=lines[i]
+         i=i+1
+         isfor=line.find('for')==0
+         isnext=line.find('next')==0
+         if (isfor|isnext): #in the case of for/next cycle we have to perform some operations or jump to some code location
+          if isfor:
+           stack.append(i)
+           var=line.split(' ',1)
+           stack.append(var[1].rstrip())
+           print(stack)
+          else: #if it is not for it must be next
+           for_variable=stack[-1]
+           var=int(SubstituteVarValues(for_variable,variables))-1
+           RefreshVarValues(for_variable,var,variables)
+           if var>0:
+            i=int(stack[-2])-1
+            line=lines[i]
+           del(stack[-1])
+           del(stack[-1])
+         else:    
+          Parse(line,variables) #execute code contained in line
        if '$return$' in variables: macrout=SubstituteVarValues("$return$",variables)
        print (variables)  #DEBUG
       else:  tkinter.messagebox.showerror("ERROR","Not connected. Connect first")
