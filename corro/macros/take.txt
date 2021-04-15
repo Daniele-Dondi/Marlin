@@ -1,7 +1,5 @@
-eval $a$,2
-eval $b$,3
-for $b$
-for $a$
+for $b$ 2
+for $a$ 5
 send G1 Z200,1
 send G1 X30 Y120,1
 send G1 Z130,1
@@ -12,6 +10,8 @@ send G1 E-16,1
 send G1 Z200,1
 next
 next
+
+
 
 
 

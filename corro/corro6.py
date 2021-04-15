@@ -454,18 +454,21 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
          if (isfor|isnext): #in the case of for/next cycle we have to perform some operations or jump to some code location
           if isfor:
            stack.append(i)
-           var=line.split(' ',1)
+           var=line.split(' ',2)
            stack.append(var[1].rstrip())
+           value=int(var[2].rstrip())
+           RefreshVarValues(var[1],value,variables)
            print(stack)
           else: #if it is not for it must be next
            for_variable=stack[-1]
-           var=int(SubstituteVarValues(for_variable,variables))-1
-           RefreshVarValues(for_variable,var,variables)
-           if var>0:
-            i=int(stack[-2])-1
+           value=int(SubstituteVarValues(for_variable,variables))-1
+           RefreshVarValues(for_variable,value,variables)
+           if value>0:
+            i=int(stack[-2])
             line=lines[i]
-           del(stack[-1])
-           del(stack[-1])
+           else: 
+            del(stack[-1])
+            del(stack[-1])
          else:    
           Parse(line,variables) #execute code contained in line
        if '$return$' in variables: macrout=SubstituteVarValues("$return$",variables)
