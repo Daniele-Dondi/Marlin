@@ -1,5 +1,8 @@
-for $a$ 10
-message cycle number $a$
+ask $cycles$,for,Enter how many cycles to perform,2,2,20
+for $a$ $cycles$
+message cycle number $a$ of $cycles$
 next
+
+
 
 

@@ -456,7 +456,7 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
            stack.append(i)
            var=line.split(' ',2)
            stack.append(var[1].rstrip())
-           value=int(var[2].rstrip())
+           value=int(SubstituteVarValues(var[2].rstrip(),variables))
            RefreshVarValues(var[1],value,variables)
            print(stack)
           else: #if it is not for it must be next
