@@ -252,16 +252,6 @@ readConfigurationFiles()
 Aimage=PhotoImage(file=SchematicImage) # load the scheme of the current configuration
 w2.create_image(0, 0, image = Aimage, anchor=NW)
 im = PIL.Image.open(MaskImage) # load the mask here
-'''
-print (im.size) #get image size
-print (NumSyringes)
-print (SyringeMax)
-print (SyringeVol)
-print (VolInlet)
-print (VolOutlet)
-print(SchematicImage)
-print(MaskImage)
-'''
 pix = im.load()
 IM.pack_forget()
 showscheme()
