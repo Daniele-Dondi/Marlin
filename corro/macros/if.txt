@@ -1,5 +1,10 @@
 label loop
 ask $a$,IF,Insert 1 to loop,0,0,1
-eval $a$,$a$==1
-if $a$ loop
+eval $a$,$a$==0
+if $a$ two
+jump loop
+label two
+
+
+
 

@@ -447,7 +447,12 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
        print('executing macro:',macrolist[num])
        with open('macros/'+macrolist[num]+'.txt') as macro_file:
         lines=macro_file.readlines() #read the entire file and put lines into an array
-        i=0   
+        i=0
+        for j in range(len(lines)):
+         line=lines[j]   
+         if (line.find('label')==0): #before executing the code search all the labels and put them into the label array
+           label=line.split(' ',1)
+           RefreshVarValues(label[1],i,labels)  # insert the current line number in the labels set
         while (i<len(lines)):
          line=lines[i]
          i=i+1
@@ -480,9 +485,6 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
            else: 
             del(stack[-1])
             del(stack[-1])
-          elif islabel: #label
-           label=line.split(' ',1)
-           RefreshVarValues(label[1],i,labels)  # insert the current line number in the labels set
           elif isjump: #jump (unconditioned jump)
            label=line.split(' ',1)
            try:
