@@ -1,0 +1,5 @@
+label loop
+ask $a$,IF,Insert 1 to loop,0,0,1
+eval $a$,$a$==1
+if $a$ loop
+

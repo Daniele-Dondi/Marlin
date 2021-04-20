@@ -429,8 +429,10 @@ def Parse(line,variables):    #parse macro lines and executes statements
 
 def Macro(num,*args): #run a macro. Call Parse function for line by line execution. Delete a macro or edit
     global IsEditingMacro,IsDeletingMacro,macrob,macrout
+    watchdog=0
     variables=[]
     stack=[] #stack keeps line numbers for cycles
+    labels=[] #labels are special variables containing line numbers to be used for goto and jump instructions
     for ar in args:
       #print('params',ar)
       par=ar.split(',')
@@ -449,17 +451,26 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
         while (i<len(lines)):
          line=lines[i]
          i=i+1
+         watchdog=watchdog+1
+         if (watchdog>500): #try to avoid infinite loops
+          MsgBox = tkinter.messagebox.askquestion ('Infinite Loop?','It seems that we are doing a lot of cycles. Continue?',icon = 'warning')
+          if MsgBox == 'yes':
+           watchdog=0
+          else: return 
          isfor=line.find('for')==0
          isnext=line.find('next')==0
-         if (isfor|isnext): #in the case of for/next cycle we have to perform some operations or jump to some code location
-          if isfor:
+         islabel=line.find('label')==0
+         isjump=line.find('jump')==0
+         isif=line.find('if')==0
+         if (isfor|isnext|islabel|isjump|isif): #in the case of for/next, label, jump and if statements, the code is analyzed in this section and not in the command parser
+          if isfor: #for
            stack.append(i)
            var=line.split(' ',2)
            stack.append(var[1].rstrip())
            value=int(SubstituteVarValues(var[2].rstrip(),variables))
            RefreshVarValues(var[1],value,variables)
            print(stack)
-          else: #if it is not for it must be next
+          elif isnext: #next
            for_variable=stack[-1]
            value=int(SubstituteVarValues(for_variable,variables))-1
            RefreshVarValues(for_variable,value,variables)
@@ -469,6 +480,22 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
            else: 
             del(stack[-1])
             del(stack[-1])
+          elif islabel: #label
+           label=line.split(' ',1)
+           RefreshVarValues(label[1],i,labels)  # insert the current line number in the labels set
+          elif isjump: #jump (unconditioned jump)
+           label=line.split(' ',1)
+           try:
+            i=int(SubstituteVarValues(label[1],labels))
+           except:
+            tkinter.messagebox.showerror("ERROR in jump","label not defined")
+          elif isif: #if statement
+           label=line.split(' ',2)
+           if (SubstituteVarValues(label[1],variables))=="True":
+            try:
+             i=int(SubstituteVarValues(label[2],labels))
+            except:
+             tkinter.messagebox.showerror("ERROR in if","label not defined")
          else:    
           Parse(line,variables) #execute code contained in line
        if '$return$' in variables: macrout=SubstituteVarValues("$return$",variables)
