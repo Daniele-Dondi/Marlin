@@ -1,9 +1,11 @@
 label loop
-ask $a$,IF,Insert 1 to loop,0,0,1
-eval $a$,$a$==0
+ask $a$,IF,Insert 0 to exit from loop,0,0,1
+eval $a$,$a$==1
 if $a$ two
 jump loop
 label two
+
+
 
 
 

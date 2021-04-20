@@ -452,7 +452,7 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
          line=lines[j]   
          if (line.find('label')==0): #before executing the code search all the labels and put them into the label array
            label=line.split(' ',1)
-           RefreshVarValues(label[1],i,labels)  # insert the current line number in the labels set
+           RefreshVarValues(label[1],j,labels)  # insert the current line number in the labels set
         while (i<len(lines)):
          line=lines[i]
          i=i+1
