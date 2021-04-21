@@ -426,7 +426,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
         print('unknown command',SubstituteVarValues(line,variables))
         return "Error"
 
-def Macro(num,*args): #run a macro. Call Parse function for line by line execution. Delete a macro or edit
+def Macro(num,*args): #run, delete or edit a macro 
     global IsEditingMacro,IsDeletingMacro,macrob,macrout
     watchdog=0 #this is used to avoid infinite loops
     variables=[] #macro's internal variables
@@ -455,9 +455,9 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
          line=lines[i]
          i=i+1
          watchdog=watchdog+1
-         if (watchdog>500): #try to avoid infinite loops
+         if (watchdog>500): #watchdog counter, try to avoid infinite loops
           MsgBox = tkinter.messagebox.askquestion ('Infinite Loop?','It seems that we are doing a lot of cycles. Continue?',icon = 'warning')
-          if MsgBox == 'yes':
+          if MsgBox == 'yes': #if cycles exceed the number above and the user reply 'yes' continue to run
            watchdog=0
           else: return 
          isfor=line.find('for')==0
