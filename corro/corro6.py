@@ -125,7 +125,7 @@ def keypress(event):  #keyboard shortcuts
 def readConfigurationFiles():
     global NumSyringes,SyringeMax,SyringeVol,VolInlet,VolOutlet,SchematicImage,MaskImage,MaskMacros,colorsbound,pixboundedmacro
     try:
-        conf_file = open("configuration.txt", "r")
+        conf_file = open("configuration.txt", "r") #open configuration.txt and read parameters
         lines=conf_file.readlines()
         conf_file.close()
         NumSyringes=int(lines[1].strip())
@@ -139,12 +139,11 @@ def readConfigurationFiles():
         VolOutlet=float(lines[curline].strip())
         curline+=2
         SchematicImage=lines[curline].strip()
-        MaskImage=SchematicImage.rsplit( ".", 1 )[ 0 ]+"-mask.png"
+        MaskImage=SchematicImage.rsplit( ".", 1 )[ 0 ]+"-mask.png" #define automatically the names of mask and binds from the schematic image name
         MaskMacros=SchematicImage.rsplit( ".", 1 )[ 0 ]+"-binds.txt"
     except:    
      tkinter.messagebox.showerror("ERROR","Error reading configuration file. Please quit program")
-
-    try:
+    try: #open configuration-binds.txt
      bind_file = open(MaskMacros, "r")
      lines=bind_file.readlines()
      bind_file.close()
@@ -429,12 +428,11 @@ def Parse(line,variables):    #parse macro lines and executes statements
 
 def Macro(num,*args): #run a macro. Call Parse function for line by line execution. Delete a macro or edit
     global IsEditingMacro,IsDeletingMacro,macrob,macrout
-    watchdog=0
-    variables=[]
+    watchdog=0 #this is used to avoid infinite loops
+    variables=[] #macro's internal variables
     stack=[] #stack keeps line numbers for cycles
     labels=[] #labels are special variables containing line numbers to be used for goto and jump instructions
-    for ar in args:
-      #print('params',ar)
+    for ar in args:  #we have some variables passed to the macro
       par=ar.split(',')
       for x in range(0,len(par)):
           RefreshVarValues('$'+str(x+1)+'$',par[x],variables)
@@ -443,7 +441,7 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
       if connected==0:   
         MsgBox = tkinter.messagebox.askquestion ('Not Connected','Connect?',icon = 'warning')
         if MsgBox == 'yes':  Connect()
-      if connected==1:   
+      if connected==1:   #we are connected, let's execute the macro
        print('executing macro:',macrolist[num])
        with open('macros/'+macrolist[num]+'.txt') as macro_file:
         lines=macro_file.readlines() #read the entire file and put lines into an array
@@ -499,20 +497,20 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
             except:
              tkinter.messagebox.showerror("ERROR in if","label not defined")
          else:    
-          if(Parse(line,variables)=="Error"): #execute code contained in line
+          if(Parse(line,variables)=="Error"): #execute code contained in line. In the case of error abort
               return
-       if '$return$' in variables: macrout=SubstituteVarValues("$return$",variables)
+       if '$return$' in variables: macrout=SubstituteVarValues("$return$",variables) #when a macro returns a value it's automatically set the reserved variable $return$
        print (variables)  #DEBUG
       else:  tkinter.messagebox.showerror("ERROR","Not connected. Connect first")
      else:  #delete macro
       MsgBox = tkinter.messagebox.askquestion ('Delete macro','Are you sure you want to delete macro '+macrolist[num]+" ?",icon = 'warning')
       if MsgBox == 'yes':
-        macrob[num].destroy()
-        os.remove("macros/"+macrolist[num]+".txt")
-        macrolist[num]=""  
+        macrob[num].destroy() #remove macro button
+        os.remove("macros/"+macrolist[num]+".txt") #delete text file (recovery is impossible)
+        macrolist[num]=""  #remove macro from the list
       DeleteMacro()  
     else: #edit macro
-     MacroEditor(num)   
+     MacroEditor(num) #open the macro editor  
      EditMacro()
 
 
