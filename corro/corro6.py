@@ -323,6 +323,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
       logfile.write(commands[1]+"\n")
      except:
       tkinter.messagebox.showerror("ERROR in log method","use: log text")
+      return "Error"
     elif line.find('buffer')==0: #buffer all commands, send later. Used for long gcode sequence where send will fail
         IsBuffered0=True
         Gcode0=[]
@@ -335,10 +336,11 @@ def Parse(line,variables):    #parse macro lines and executes statements
       commands=line.split(',',6)
       commands[0]=commands[0][4:] # remove ask
       x = tkinter.simpledialog.askinteger(commands[1], commands[2]+' ['+str(commands[4])+'..'+str(commands[5]+']'),initialvalue=int(commands[3]), minvalue=int(commands[4]), maxvalue=int(commands[5]))
-      if x==None: x=0
+      if x==None: return "Error"
       RefreshVarValues(commands[0],x,variables)
      except:
       tkinter.messagebox.showerror("ERROR in ask method","use: ask $varname$,title,question,initialvalue,minvalue,maxvalue")
+      return "Error"
     elif line.find('getsyringeparms')==0: #load the values for the syringe  
      try:
       axisnames=["X","Y","Z","I","J","K"]   
@@ -351,6 +353,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
       RefreshVarValues("$axisname$",axisnames[int(commands[1])],variables)
      except:
       tkinter.messagebox.showerror("ERROR in getsyringeparms method","use: getsyringeparms syringenumber")
+      return "Error"
     elif line.find('eval')==0: #we've to calculate somethg
       try:
        commands=line.split(',',1)
@@ -359,6 +362,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
        RefreshVarValues(commands[0],x,variables)
       except:
        tkinter.messagebox.showerror("ERROR in eval method","use: eval $varname$,math_expression")
+       return "Error"
     elif line.find('exec')==0: #we've to execute somethg
       try:
        commands=line.split('!,')
@@ -378,7 +382,8 @@ def Parse(line,variables):    #parse macro lines and executes statements
        for x in range(0,len(namevars)):
            RefreshVarValues(namevars[x],l[codevars[x]],variables)
       except:
-       tkinter.messagebox.showerror("ERROR in exec method","use: exec code!,varname1=$var1$,...")       
+       tkinter.messagebox.showerror("ERROR in exec method","use: exec code!,varname1=$var1$,...")
+       return "Error"
     elif line.find('macro')==0: #we've to call a nested macro
       try:
        commands=line.split('"',2)
@@ -390,6 +395,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
        except ValueError:  tkinter.messagebox.showerror("ERROR in macro call",'macro '+commands[1]+' does not exist')
       except:
        tkinter.messagebox.showerror("ERROR in macro call",'use: macro "macroname" var1,var2..')
+       return "Error"
     elif line.find('echo')==0: #we've to echo to the console
       try:
        commands=line.split(' ',1)
@@ -397,6 +403,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
        print(commands[1])
       except:
        tkinter.messagebox.showerror("ERROR in echo method","use: echo text $varname$")
+       return "Error"
     elif line.find('message')==0: #create a messagebox
       try:
        commands=line.split(' ',1)
@@ -404,6 +411,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
        tkinter.messagebox.showinfo('info',commands[1])
       except:
        tkinter.messagebox.showerror("ERROR in message method","use: message text $varname$")
+       return "Error"
     elif line.find('send')==0:
       try:
        commands=line   
@@ -413,9 +421,11 @@ def Parse(line,variables):    #parse macro lines and executes statements
        sendcommand(commands[0],int(commands[1]))
       except IOError:
        tkinter.messagebox.showerror("ERROR in send method","use: send command,where")
+       return "Error"
     else:
         #command not recognized
         print('unknown command',SubstituteVarValues(line,variables))
+        return "Error"
 
 def Macro(num,*args): #run a macro. Call Parse function for line by line execution. Delete a macro or edit
     global IsEditingMacro,IsDeletingMacro,macrob,macrout
@@ -489,7 +499,8 @@ def Macro(num,*args): #run a macro. Call Parse function for line by line executi
             except:
              tkinter.messagebox.showerror("ERROR in if","label not defined")
          else:    
-          Parse(line,variables) #execute code contained in line
+          if(Parse(line,variables)=="Error"): #execute code contained in line
+              return
        if '$return$' in variables: macrout=SubstituteVarValues("$return$",variables)
        print (variables)  #DEBUG
       else:  tkinter.messagebox.showerror("ERROR","Not connected. Connect first")
