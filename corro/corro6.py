@@ -334,7 +334,9 @@ def Parse(line,variables):    #parse macro lines and executes statements
      try:
       commands=line.split(',',6)
       commands[0]=commands[0][4:] # remove ask
-      x = tkinter.simpledialog.askinteger(commands[1], commands[2]+' ['+str(commands[4])+'..'+str(commands[5]+']'),initialvalue=int(commands[3]), minvalue=int(commands[4]), maxvalue=int(commands[5]))
+      for c in range(len(commands)-1):
+          commands[c+1]=SubstituteVarValues(commands[c+1],variables)
+      x = tkinter.simpledialog.askfloat(commands[1], commands[2]+' ['+str(commands[4])+' ... '+str(commands[5]+']'),initialvalue=float(commands[3]), minvalue=float(commands[4]), maxvalue=float(commands[5]))
       if x==None: return "Error"
       RefreshVarValues(commands[0],x,variables)
      except:

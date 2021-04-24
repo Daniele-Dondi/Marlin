@@ -1,7 +1,15 @@
 buffer
 eval $num$,0;get parms for syr 1
 getsyringeparms $num$
-ask $ML$,Syringe 1,Enter how many ml to put,1,0,$syringevol$
+eval $syr$,$num$+1
+ask $ML$,Syringe $syr$,Enter how many ml to put,1,0,$syringevol$
 macro "syr1_X_ml"$ML$
 print
+
+
+
+
+
+
+
 
