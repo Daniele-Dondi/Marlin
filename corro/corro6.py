@@ -309,7 +309,7 @@ def RefreshVarValues(var_name,value,variables): #if a variable exists, update it
 
 def Parse(line,variables):    #parse macro lines and executes statements
     global logfile,IsBuffered0,Gcode0
-    global SyringeMax, SyringeVol, VolInlet, VolOutlet #global parameters for syringes taken from configuration.txt
+    global NumSyringes, SyringeMax, SyringeVol, VolInlet, VolOutlet #global parameters for syringes taken from configuration.txt
     line = line.split(";", 1)[0] #remove comments (present eventually after ;)
     line=line.rstrip()  #remove cr/lf
     if line=="": return
@@ -350,6 +350,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
       RefreshVarValues("$volinlet$",VolInlet,variables)
       RefreshVarValues("$voloutlet$",VolOutlet,variables)
       RefreshVarValues("$axisname$",axisnames[int(commands[1])],variables)
+      RefreshVarValues("$numsyringes$",int(NumSyringes),variables)
      except:
       tkinter.messagebox.showerror("ERROR in getsyringeparms method","use: getsyringeparms syringenumber")
       return "Error"
