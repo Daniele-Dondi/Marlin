@@ -316,7 +316,6 @@ def Parse(line,variables):    #parse macro lines and executes statements
     if line.find('log')==0: #print string to log file
      try:
       commands=line.split(' ',1)
-      #commands[0]=commands[0][4:] # remove log
       commands[1]=SubstituteVarValues(commands[1],variables) #substitute var names with values
       print(commands[1])
       logfile.write(commands[1]+"\n")
@@ -406,7 +405,7 @@ def Parse(line,variables):    #parse macro lines and executes statements
       except:
        tkinter.messagebox.showerror("ERROR in echo method","use: echo text $varname$")
        return "Error"
-    elif line.find('message')==0: #create a messagebox
+    elif line.find('message')==0: #show a messagebox
       try:
        commands=line.split(' ',1)
        commands[1]=SubstituteVarValues(commands[1],variables) #substitute var names with values
