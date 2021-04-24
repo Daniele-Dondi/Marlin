@@ -317,8 +317,8 @@ def Parse(line,variables):    #parse macro lines and executes statements
      try:
       commands=line.split(' ',1)
       #commands[0]=commands[0][4:] # remove log
-      print(commands[1])
       commands[1]=SubstituteVarValues(commands[1],variables) #substitute var names with values
+      print(commands[1])
       logfile.write(commands[1]+"\n")
      except:
       tkinter.messagebox.showerror("ERROR in log method","use: log text")
