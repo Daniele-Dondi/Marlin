@@ -1,5 +1,5 @@
 buffer
-eval $num$,0;get parms for syr 1
+eval $num$,1;get parms for syr 2
 getsyringeparms $num$
 eval $syr$,$num$+1
 ask $ML$,Syringe $syr$,Enter how many ml to put,1,0,$syringevol$
